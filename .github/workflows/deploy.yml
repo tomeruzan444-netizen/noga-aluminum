@@ -1,7 +1,9 @@
-name: Build & Deploy to Hostinger
+name: Build & Deploy to Production
 
-# Paused during migration. Re-enable the push trigger after cutover for auto-deploy.
+# Every push to main builds and updates the live site (noga-aluminum.co.il).
 on:
+  push:
+    branches: [main]
   workflow_dispatch:
 
 concurrency:
@@ -12,35 +14,16 @@ jobs:
   deploy:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-
-      - name: Setup Node
-        uses: actions/setup-node@v4
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
         with:
           node-version: 20
           cache: npm
-
-      - name: Install dependencies
-        run: npm ci
-
-      - name: Build site (Astro -> dist/)
-        run: npm run build
-
-      - name: Deploy dist/ to Hostinger via FTP
-        uses: SamKirkland/FTP-Deploy-Action@v4.3.5
-        with:
-          server: ${{ secrets.FTP_HOST }}
-          username: ${{ secrets.FTP_USERNAME }}
-          password: ${{ secrets.FTP_PASSWORD }}
-          protocol: ftp
-          port: 21
-          local-dir: ./dist/
-          # Absolute path to the staging subdomain docroot (FTP root = /home/u260375810).
-          server-dir: /domains/noga-aluminum.co.il/public_html/staging/
-          # Never touch the password-protection / config files placed manually on the server:
-          exclude: |
-            **/.git*
-            **/.htaccess
-            **/.htpasswd
-            **/.ftp-deploy-sync-state.json
+      - run: npm ci
+      - run: npm run build
+      - name: Upload dist/ to the live site
+        run: node scripts/deploy-update.mjs
+        env:
+          FTP_HOST: ${{ secrets.FTP_HOST }}
+          FTP_USER: ${{ secrets.FTP_USERNAME }}
+          FTP_PASS: ${{ secrets.FTP_PASSWORD }}

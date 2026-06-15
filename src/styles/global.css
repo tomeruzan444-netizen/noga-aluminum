@@ -216,6 +216,12 @@ strong, b { font-weight: 700; }
 .contact-form input:focus, .contact-form textarea:focus { outline: none; border-color: var(--orange); background: #fff; }
 .contact-form textarea { min-height: 96px; resize: vertical; }
 .form-note { font-size: .82rem; color: var(--muted); }
+.form-success { display: flex; flex-direction: column; align-items: center; text-align: center; gap: 6px; padding: 22px 16px; background: #eafaf0; border: 1.5px solid var(--green); border-radius: var(--radius-sm); color: #157a3a; animation: pop .25s ease; }
+.form-success svg { color: var(--green); }
+.form-success strong { font-size: 1.15rem; color: #157a3a; }
+.form-success span { color: var(--ink-soft); font-size: .95rem; }
+.form-error { padding: 12px 14px; background: #fdeced; border: 1.5px solid #cf2e2e; border-radius: var(--radius-sm); color: #a01b1b; font-weight: 600; font-size: .95rem; text-align: center; }
+@keyframes pop { from { transform: scale(.92); opacity: 0; } to { transform: scale(1); opacity: 1; } }
 
 /* ===== FAQ accordion ===== */
 .faq { margin: 40px 0 0; }
