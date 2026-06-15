@@ -12,14 +12,16 @@ try {
   await c.access({ host, user, password, secure: false });
   console.log('Logged in at', await c.pwd());
 
+  // Only probe public_html paths (the FTP home root holds stale leftovers we must NOT target).
   let found = false;
-  for (const rel of ['', 'public_html', 'domains/noga-aluminum.co.il/public_html']) {
+  for (const rel of ['public_html', 'domains/noga-aluminum.co.il/public_html']) {
     await c.cd('/');
-    if (rel) { try { await c.cd(rel); } catch { continue; } }
+    try { await c.cd(rel); } catch { continue; }
     let list; try { list = await c.list(); } catch { continue; }
-    const isOurSite = list.some((e) => e.name === '_astro') && list.some((e) => e.name === 'index.html');
-    console.log(`  probe "${await c.pwd()}" -> our-site=${isOurSite}`);
-    if (isOurSite) { found = true; break; }
+    const isLiveSite = list.some((e) => e.name === 'index.html')
+      && (list.some((e) => e.name === '_pre_migration_backup') || list.some((e) => e.name === '_astro'));
+    console.log(`  probe "${await c.pwd()}" -> live-site=${isLiveSite}`);
+    if (isLiveSite) { found = true; break; }
   }
   if (!found) {
     console.error('❌ ABORT: live site docroot (_astro + index.html) not found. Nothing uploaded.');
