@@ -21,6 +21,13 @@ const isHero = variant === 'hero';
   <div class="form-error full" hidden role="alert">אירעה תקלה בשליחה. נסו שוב, או חייגו אלינו ישירות.</div>
 </form>
 <script>
+  function resetContactForm(form) {
+    form.querySelectorAll('input:not([type=hidden]), textarea, button, .form-note').forEach((el) => { el.style.display = ''; });
+    const ok = form.querySelector('.form-success'); if (ok) ok.hidden = true;
+    const err = form.querySelector('.form-error'); if (err) err.hidden = true;
+    const btn = form.querySelector('button[type="submit"]'); if (btn) { btn.disabled = false; btn.textContent = 'שליחת פנייה'; }
+    form.reset();
+  }
   document.querySelectorAll('form.contact-form').forEach((form) => {
     form.addEventListener('submit', async (e) => {
       e.preventDefault();
@@ -28,7 +35,6 @@ const isHero = variant === 'hero';
       const ok = form.querySelector('.form-success');
       const err = form.querySelector('.form-error');
       err.hidden = true;
-      const label = btn.textContent;
       btn.disabled = true; btn.textContent = 'שולח...';
       try {
         const res = await fetch(form.action, {
@@ -42,9 +48,14 @@ const isHero = variant === 'hero';
         ok.hidden = false;
         ok.scrollIntoView({ behavior: 'smooth', block: 'center' });
       } catch {
-        btn.disabled = false; btn.textContent = label;
+        btn.disabled = false; btn.textContent = 'שליחת פנייה';
         err.hidden = false;
       }
     });
+  });
+  // Reset the form whenever the page is shown again (reload OR back/forward bfcache restore),
+  // so a previous "sent" confirmation never sticks around.
+  window.addEventListener('pageshow', () => {
+    document.querySelectorAll('form.contact-form').forEach(resetContactForm);
   });
 </script>
