@@ -38,7 +38,8 @@ jobs:
           protocol: ftp
           port: 21
           local-dir: ./dist/
-          server-dir: ${{ secrets.FTP_REMOTE_DIR }}
+          # The staging FTP account is rooted at public_html/staging, so "./" = its home dir.
+          server-dir: ./
           # Never touch the password-protection / config files placed manually on the server:
           exclude: |
             **/.git*
