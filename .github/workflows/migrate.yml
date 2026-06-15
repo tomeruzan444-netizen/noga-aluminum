@@ -1,8 +1,12 @@
 name: Migrate to Production (one-time)
 
-# Manual trigger only — run once from the Actions tab to cut over from WordPress.
+# Triggered to cut over from WordPress. Safe to re-run: the script aborts unless the
+# live WordPress root (wp-content) is found, so a second run after migration does nothing.
 on:
   workflow_dispatch:
+  push:
+    branches: [main]
+    paths: ['.github/workflows/migrate.yml']
 
 jobs:
   migrate:
