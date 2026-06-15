@@ -38,8 +38,8 @@ jobs:
           protocol: ftp
           port: 21
           local-dir: ./dist/
-          # The staging FTP account is rooted at public_html/staging, so "./" = its home dir.
-          server-dir: ./
+          # The FTP account lands at the account home; the staging docroot is public_html/staging.
+          server-dir: public_html/staging/
           # Never touch the password-protection / config files placed manually on the server:
           exclude: |
             **/.git*
