@@ -1,0 +1,17 @@
+<svg width="512" height="512" viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="נוגה אלומיניום">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#ff7a45"/>
+      <stop offset="1" stop-color="#e35400"/>
+    </linearGradient>
+  </defs>
+  <rect width="512" height="512" rx="116" fill="url(#bg)"/>
+  <!-- aluminium window frame -->
+  <rect x="126" y="126" width="260" height="260" rx="52" fill="none" stroke="#ffffff" stroke-width="36"/>
+  <!-- three vertical profiles inside (the logo's slats) -->
+  <g fill="#ffffff">
+    <rect x="180" y="190" width="28" height="132" rx="14"/>
+    <rect x="242" y="190" width="28" height="132" rx="14"/>
+    <rect x="304" y="190" width="28" height="132" rx="14"/>
+  </g>
+</svg>
