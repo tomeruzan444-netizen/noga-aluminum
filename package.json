@@ -12,7 +12,8 @@
   },
   "dependencies": {
     "@astrojs/sitemap": "^3.2.1",
-    "astro": "^4.16.18"
+    "astro": "^4.16.18",
+    "basic-ftp": "^6.0.1"
   },
   "devDependencies": {
     "cheerio": "^1.0.0",

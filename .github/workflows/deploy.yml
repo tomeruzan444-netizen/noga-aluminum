@@ -1,9 +1,7 @@
 name: Build & Deploy to Hostinger
 
-# Runs on every push to main, or manually from the Actions tab.
+# Paused during migration. Re-enable the push trigger after cutover for auto-deploy.
 on:
-  push:
-    branches: [main]
   workflow_dispatch:
 
 concurrency:
