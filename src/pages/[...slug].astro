@@ -1,0 +1,68 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Sidebar from '../components/Sidebar.astro';
+import Faq from '../components/Faq.astro';
+import ContactForm from '../components/ContactForm.astro';
+import ServicesGrid from '../components/ServicesGrid.astro';
+import { site, telLink, waLink } from '../data/site.js';
+import Icon from '../components/Icons.astro';
+
+export async function getStaticPaths() {
+  const modules = import.meta.glob('../content/pages/*.json', { eager: true });
+  return Object.values(modules).map((m) => {
+    const page = m.default;
+    const slug = page.route === '/' ? undefined : page.route.replace(/^\/|\/$/g, '');
+    return { params: { slug }, props: { page } };
+  });
+}
+
+const { page } = Astro.props;
+const isHome = page.route === '/';
+---
+<BaseLayout
+  title={page.metaTitle}
+  description={page.metaDesc}
+  route={page.route}
+  h1={page.h1}
+  faq={page.faq}
+  robots={page.robots}
+>
+  <section class="page-hero">
+    <img class="hero-bg" src={site.teamPhoto} alt={`הצוות המקצועי של ${site.name}`} width="1597" height="850"
+         fetchpriority="high" loading="eager" decoding="async" />
+    <div class="hero-overlay" aria-hidden="true"></div>
+    <div class="container">
+      <nav class="breadcrumb" aria-label="פירורי לחם">
+        <a href="/">דף הבית</a>
+        {!isHome && <><span>›</span><span aria-current="page">{page.h1}</span></>}
+      </nav>
+      <div class="hero-head">
+        <h1>{page.h1}</h1>
+        <p class="sub">{site.tagline}</p>
+      </div>
+      <div class="hero-form-card">
+        <div class="hero-form-title">קבלו הצעת מחיר - השאירו פרטים</div>
+        <ContactForm variant="hero" />
+      </div>
+    </div>
+  </section>
+
+  <div class="container">
+    <div class="layout">
+      <article class="content">
+        {isHome && <ServicesGrid />}
+        <Fragment set:html={page.contentHtml} />
+        <Faq items={page.faq} />
+        <div class="cta-band">
+          <h2>צריכים הצעת מחיר?</h2>
+          <p>צרו קשר עוד היום - ייעוץ מקצועי והצעת מחיר משתלמת, ללא התחייבות.</p>
+          <div style="display:flex;gap:12px;justify-content:center;flex-wrap:wrap">
+            <a class="btn btn-primary" href={telLink}><Icon name="phone" width="18" height="18" /> {site.phone}</a>
+            <a class="btn btn-wa" href={waLink} target="_blank" rel="noopener"><Icon name="whatsapp" width="18" height="18" /> וואטסאפ</a>
+          </div>
+        </div>
+      </article>
+      <Sidebar />
+    </div>
+  </div>
+</BaseLayout>

@@ -1,0 +1,17 @@
+# dependencies
+node_modules/
+
+# build output (built by CI / locally; not committed)
+dist/
+.astro/
+
+# local working artifacts (raw WP HTML, screenshots, audit dumps, logs)
+_source/
+
+# os / editor
+.DS_Store
+Thumbs.db
+*.local
+.vscode/
+.env
+.env.*

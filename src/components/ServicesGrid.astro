@@ -1,0 +1,23 @@
+---
+import { services } from '../data/site.js';
+---
+<section class="services-section" aria-labelledby="services-title">
+  <div class="section-head">
+    <h2 id="services-title">השירותים שלנו</h2>
+    <p>כל עבודות האלומיניום במקום אחד - מקצועיות, אמינות וגימור מושלם.</p>
+  </div>
+  <div class="services-grid">
+    {services.map((s) => (
+      <a class="service-card" href={s.href}>
+        <div class="service-img">
+          <img src={s.img} alt={s.label} width="300" height="200" loading="lazy" decoding="async" />
+        </div>
+        <div class="service-body">
+          <h3>{s.label}</h3>
+          <p>{s.desc}</p>
+          <span class="service-link">לפרטים נוספים ←</span>
+        </div>
+      </a>
+    ))}
+  </div>
+</section>

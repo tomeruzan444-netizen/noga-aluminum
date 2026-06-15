@@ -1,0 +1,16 @@
+---
+const { variant = 'default' } = Astro.props;
+const isHero = variant === 'hero';
+---
+<form class:list={['contact-form', variant]} action="/contact.php" method="post">
+  <input type="text" name="name" placeholder="שם מלא" aria-label="שם מלא" required autocomplete="name" />
+  <input type="tel" name="phone" placeholder="טלפון" aria-label="מספר טלפון" required autocomplete="tel" inputmode="tel" />
+  <input class="full" type="text" name="city" placeholder="מאיפה אתם?" aria-label="עיר או אזור מגורים" autocomplete="address-level2" />
+  <textarea class="full" name="message" placeholder="איך אנחנו יכולים לעזור?" aria-label="פירוט הפנייה" rows={isHero ? 2 : 3}></textarea>
+  <!-- honeypot for spam (visually-hidden, no layout overflow) -->
+  <input type="text" name="website" tabindex="-1" autocomplete="off" aria-hidden="true"
+    style="position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0 0 0 0);clip-path:inset(50%);border:0;white-space:nowrap" />
+  <input type="hidden" name="page" value={Astro.url.pathname} />
+  <button type="submit" class="btn btn-primary btn-block full">שליחת פנייה</button>
+  <p class="form-note full">פנייתכם תגיע ישירות אלינו ונחזור אליכם בהקדם.</p>
+</form>

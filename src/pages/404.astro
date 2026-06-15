@@ -1,0 +1,37 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { site, telLink, waLink, services } from '../data/site.js';
+import Icon from '../components/Icons.astro';
+---
+<BaseLayout
+  title="העמוד לא נמצא (404) | נוגה אלומיניום"
+  description="העמוד שחיפשתם לא נמצא. חזרו לדף הבית של נוגה אלומיניום או עברו לאחד מהשירותים שלנו."
+  route="/404/"
+  robots="noindex, follow"
+>
+  <section class="notfound">
+    <div class="container">
+      <div class="nf-code">404</div>
+      <h1>אופס, העמוד לא נמצא</h1>
+      <p>ייתכן שהעמוד הוסר, הועבר, או שהקישור שגוי. אפשר לחזור לדף הבית או לעבור ישירות לאחד השירותים שלנו.</p>
+      <div class="nf-actions">
+        <a class="btn btn-primary" href="/">חזרה לדף הבית</a>
+        <a class="btn btn-wa" href={waLink} target="_blank" rel="noopener"><Icon name="whatsapp" width="18" height="18" /> וואטסאפ</a>
+        <a class="btn btn-ghost" href={telLink}><Icon name="phone" width="18" height="18" /> {site.phone}</a>
+      </div>
+      <div class="nf-services">
+        {services.map((s) => <a href={s.href}>{s.label}</a>)}
+      </div>
+    </div>
+  </section>
+</BaseLayout>
+<style>
+  .notfound { text-align: center; padding: 70px 0 80px; }
+  .nf-code { font-size: clamp(5rem, 16vw, 9rem); font-weight: 800; line-height: 1; color: var(--orange); opacity: .9; }
+  .notfound h1 { font-size: clamp(1.6rem, 4vw, 2.2rem); margin: 6px 0 12px; }
+  .notfound p { color: var(--ink-soft); max-width: 560px; margin: 0 auto 26px; }
+  .nf-actions { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; margin-bottom: 40px; }
+  .nf-services { display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; max-width: 720px; margin: 0 auto; }
+  .nf-services a { padding: 8px 16px; border: 1px solid var(--line); border-radius: 999px; font-weight: 600; font-size: .95rem; color: var(--ink); transition: background .15s, color .15s, border-color .15s; }
+  .nf-services a:hover { background: var(--orange-light); color: var(--orange-dark); border-color: transparent; }
+</style>

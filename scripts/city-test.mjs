@@ -1,0 +1,17 @@
+import { readFileSync } from 'node:fs';
+import { fileURLToPath } from 'node:url';
+import { dirname, join } from 'node:path';
+const __dir = dirname(fileURLToPath(import.meta.url));
+const pagesIndex = JSON.parse(readFileSync(join(__dir, '../src/data/pages-index.json'), 'utf8').replace(/^﻿/, ''));
+const decode = (r) => { try { return decodeURIComponent(r); } catch { return r; } };
+const CITIES = ['ראשון לציון','הוד השרון','תל אביב','רמת גן','פתח תקווה','נתניה','חיפה','גבעתיים','רעננה','רחובות','ירושלים','חולון','אשדוד','קיסריה','טבריה','כרמיאל','נהריה','נשר'];
+const norm = (route) => decode(route).replace(/\//g, '').replace(/-/g, ' ').trim();
+const extractCity = (route) => CITIES.find((c) => norm(route).includes(c)) || null;
+const all = pagesIndex.map((p) => ({ route: p.route, city: extractCity(p.route) }));
+const r = '/מעקות-אלומיניום-בנתניה/';
+console.log('city of', r, '=>', extractCity(r));
+console.log('cityItems for נתניה:', all.filter((p) => p.route !== r && p.city === 'נתניה').map((p) => p.route));
+console.log('\npages with a city:', all.filter((p) => p.city).length, '/', all.length);
+console.log('cities histogram:');
+const h = {}; all.forEach((p) => { if (p.city) h[p.city] = (h[p.city]||0)+1; });
+console.log(h);

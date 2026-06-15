@@ -1,0 +1,8 @@
+---
+import { telLink, waLink } from '../data/site.js';
+import Icon from './Icons.astro';
+---
+<div class="floating">
+  <a class="fab-wa" href={waLink} target="_blank" rel="noopener" aria-label="וואטסאפ"><Icon name="whatsapp" /></a>
+  <a class="fab-tel" href={telLink} aria-label="חיוג"><Icon name="phone" /></a>
+</div>

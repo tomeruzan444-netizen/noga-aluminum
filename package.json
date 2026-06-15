@@ -1,0 +1,22 @@
+{
+  "name": "noga-aluminum",
+  "type": "module",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "dev": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview",
+    "extract": "node scripts/extract.mjs",
+    "analyze": "node scripts/analyze.mjs"
+  },
+  "dependencies": {
+    "@astrojs/sitemap": "^3.2.1",
+    "astro": "^4.16.18"
+  },
+  "devDependencies": {
+    "cheerio": "^1.0.0",
+    "puppeteer-core": "^25.1.0",
+    "sharp": "^0.35.1"
+  }
+}

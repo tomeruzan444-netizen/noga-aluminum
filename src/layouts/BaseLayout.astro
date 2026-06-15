@@ -1,0 +1,91 @@
+---
+import '../styles/fonts.css';
+import '../styles/global.css';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import FloatingButtons from '../components/FloatingButtons.astro';
+import { site } from '../data/site.js';
+import { buildSchema } from '../lib/schema.js';
+
+const { title, description, route, h1, faq = [], ogImage, robots } = Astro.props;
+const canonical = site.domain + route;
+const img = ogImage || (site.domain + (site.ogImage || site.teamPhoto));
+const schema = buildSchema({ route, title, description, h1, faq, image: img });
+---
+<!doctype html>
+<html lang="he" dir="rtl">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>{title}</title>
+  <meta name="description" content={description} />
+  <link rel="canonical" href={canonical} />
+  <meta name="robots" content={robots || 'index, follow, max-image-preview:large, max-snippet:-1'} />
+  <meta name="theme-color" content="#ff6b35" />
+
+  <!-- Open Graph -->
+  <meta property="og:type" content="website" />
+  <meta property="og:locale" content="he_IL" />
+  <meta property="og:site_name" content={site.name} />
+  <meta property="og:title" content={title} />
+  <meta property="og:description" content={description} />
+  <meta property="og:url" content={canonical} />
+  <meta property="og:image" content={img} />
+  <meta property="og:image:secure_url" content={img} />
+  <meta property="og:image:width" content="1597" />
+  <meta property="og:image:height" content="850" />
+  <meta property="og:image:alt" content={`הצוות המקצועי של ${site.name}`} />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:image" content={img} />
+  <meta name="twitter:image:alt" content={`הצוות המקצועי של ${site.name}`} />
+
+  <!-- Self-hosted Assistant font: preload the Hebrew weights used above the fold -->
+  <link rel="preload" as="font" type="font/woff2" href="/fonts/assistant-400-hebrew.woff2" crossorigin />
+  <link rel="preload" as="font" type="font/woff2" href="/fonts/assistant-700-hebrew.woff2" crossorigin />
+
+  <link rel="icon" type="image/png" href={site.logo} />
+  <script type="application/ld+json" set:html={JSON.stringify(schema)} />
+</head>
+<body>
+  <a href="#main" class="skip-link">דלג לתוכן</a>
+  <Header />
+  <main id="main">
+    <slot />
+  </main>
+  <Footer />
+  <FloatingButtons />
+  <script>
+    // Initialize any auto-generated image sliders.
+    document.querySelectorAll('[data-slider]').forEach((sl) => {
+      const track = sl.querySelector('.slider-track');
+      const slides = Array.from(sl.querySelectorAll('.slide'));
+      const dotsWrap = sl.querySelector('.slider-dots');
+      if (!track || slides.length < 2) return;
+      const go = (i) => {
+        i = Math.max(0, Math.min(slides.length - 1, i));
+        slides[i].scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'nearest' });
+      };
+      const current = () => Math.round(Math.abs(track.scrollLeft) / track.clientWidth);
+      slides.forEach((_, i) => {
+        const b = document.createElement('button');
+        b.type = 'button';
+        b.setAttribute('aria-label', 'תמונה ' + (i + 1));
+        if (i === 0) b.setAttribute('aria-current', 'true');
+        b.addEventListener('click', () => go(i));
+        dotsWrap.appendChild(b);
+      });
+      const dots = Array.from(dotsWrap.children);
+      sl.querySelector('.slider-prev')?.addEventListener('click', () => go(current() - 1));
+      sl.querySelector('.slider-next')?.addEventListener('click', () => go(current() + 1));
+      let t;
+      track.addEventListener('scroll', () => {
+        clearTimeout(t);
+        t = setTimeout(() => {
+          const idx = current();
+          dots.forEach((d, i) => d.setAttribute('aria-current', i === idx ? 'true' : 'false'));
+        }, 90);
+      }, { passive: true });
+    });
+  </script>
+</body>
+</html>

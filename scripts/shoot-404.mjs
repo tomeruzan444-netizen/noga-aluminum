@@ -1,0 +1,10 @@
+﻿import puppeteer from "puppeteer-core";
+import { existsSync } from "node:fs";
+const EDGE=["C:/Program Files (x86)/Microsoft/Edge/Application/msedge.exe","C:/Program Files/Microsoft/Edge/Application/msedge.exe"].find(existsSync);
+const b=await puppeteer.launch({executablePath:EDGE,headless:"new",args:["--no-sandbox"]});
+const p=await b.newPage();
+await p.setViewport({width:1100,height:760});
+await p.goto("http://127.0.0.1:4321/404.html",{waitUntil:"networkidle0"});
+await p.screenshot({path:"_source/page-404.png"});
+console.log("404 shot done");
+await b.close();

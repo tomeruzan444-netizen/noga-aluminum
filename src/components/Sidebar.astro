@@ -1,0 +1,52 @@
+---
+import { site, telLink, waLink } from '../data/site.js';
+import { getSidebar } from '../data/groups.js';
+import Icon from './Icons.astro';
+const sb = getSidebar(Astro.url.pathname);
+---
+<aside class="sidebar">
+  <!-- Prominent contact CTA -->
+  <div class="side-cta">
+    <div class="side-cta-title">צריכים ייעוץ או הצעת מחיר?</div>
+    <p>זמינים עבורכם - דברו איתנו עכשיו.</p>
+    <a class="side-phone" href={telLink}>
+      <Icon name="phone" width="22" height="22" /> {site.phone}
+    </a>
+    <a class="btn btn-wa btn-block" href={waLink} target="_blank" rel="noopener">
+      <Icon name="whatsapp" width="20" height="20" /> שלחו וואטסאפ
+    </a>
+  </div>
+
+  <!-- Per-group related pages -->
+  {sb.items.length > 1 && (
+    <nav class="card card-pad" aria-label={sb.title}>
+      <div class="card-title">{sb.title}</div>
+      <ul class="side-list">
+        {sb.items.map((it) => (
+          <li><a href={it.route} aria-current={it.active ? 'page' : undefined}>{it.label}</a></li>
+        ))}
+      </ul>
+    </nav>
+  )}
+
+  <!-- Same-city cross-service links (tailored to this page) -->
+  {sb.city && sb.cityItems.length > 0 && (
+    <nav class="card card-pad" aria-label={`שירותים נוספים ב${sb.city}`}>
+      <div class="card-title">גם ב{sb.city}</div>
+      <ul class="side-list">
+        {sb.cityItems.map((it) => (
+          <li><a href={it.route}>{it.label}</a></li>
+        ))}
+      </ul>
+    </nav>
+  )}
+
+  <!-- Service areas -->
+  <div class="card card-pad">
+    <div class="card-title">אזורי שירות</div>
+    <ul class="areas">
+      {site.areas.map((a) => <li>{a}</li>)}
+    </ul>
+    <p class="side-hours"><Icon name="clock" width="16" height="16" /> {site.hours}</p>
+  </div>
+</aside>
