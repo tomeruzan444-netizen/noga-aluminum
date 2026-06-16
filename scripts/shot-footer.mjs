@@ -1,0 +1,12 @@
+import puppeteer from 'puppeteer-core';
+import { existsSync } from 'node:fs';
+const EDGE = ['C:/Program Files (x86)/Microsoft/Edge/Application/msedge.exe','C:/Program Files/Microsoft/Edge/Application/msedge.exe'].find(existsSync);
+const b = await puppeteer.launch({ executablePath: EDGE, headless: 'new', args: ['--no-sandbox'] });
+const page = await b.newPage();
+await page.setViewport({ width: 390, height: 844, deviceScaleFactor: 1, isMobile: true });
+await page.goto('https://noga-aluminum.co.il/', { waitUntil: 'networkidle2', timeout: 45000 });
+await page.evaluate(() => window.scrollTo(0, document.body.scrollHeight));
+await new Promise(r => setTimeout(r, 700));
+await page.screenshot({ path: 'footer-mobile.png' });
+console.log('saved footer-mobile.png (page bottom)');
+await b.close();
