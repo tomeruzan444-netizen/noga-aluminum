@@ -1,9 +1,9 @@
 name: Build & Deploy to Production
 
-# Every push to main builds and updates the live site (noga-aluminum.co.il).
+# Manual only. Hostinger blocks FTP from cloud/datacenter IPs (ETIMEDOUT), so the
+# live site is deployed via direct FTP from the maintainer's machine
+# (`node scripts/publish.mjs`). This workflow is kept for reference / emergencies.
 on:
-  push:
-    branches: [main]
   workflow_dispatch:
 
 concurrency:
