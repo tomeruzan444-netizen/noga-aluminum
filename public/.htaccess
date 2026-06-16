@@ -22,7 +22,21 @@ ErrorDocument 404 /404.html
   Header set X-Content-Type-Options "nosniff"
   Header set Referrer-Policy "strict-origin-when-cross-origin"
   Header set X-Frame-Options "SAMEORIGIN"
+  # כפיית HTTPS בדפדפן לשנה (כולל תת-דומיינים) - HSTS
+  Header always set Strict-Transport-Security "max-age=31536000; includeSubDomains"
+  # מצמצם הרשאות לפיצ'רים רגישים שהאתר לא צריך
+  Header set Permissions-Policy "geolocation=(), microphone=(), camera=(), payment=(), usb=()"
+  # מסיר חשיפת גרסת PHP/שרת
+  Header unset X-Powered-By
 </IfModule>
+
+# --- מניעת רישום/גלישה בתיקיות ---
+Options -Indexes
+
+# --- חסימת קבצים רגישים (הגנה בשכבות; ה-web root נקי, זה למקרה חירום) ---
+<FilesMatch "(?i)\.(env|lock|mjs|md|yml|yaml|sh|bak|sql|ini|config|json)$">
+  Require all denied
+</FilesMatch>
 
 # --- דחיסה (Gzip) ---
 <IfModule mod_deflate.c>

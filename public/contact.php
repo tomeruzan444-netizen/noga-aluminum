@@ -16,7 +16,10 @@ function respond($ok) {
     http_response_code($ok ? 200 : 400);
     echo json_encode(['ok' => $ok]);
   } else {
-    $ref = $_SERVER['HTTP_REFERER'] ?? '/';
+    // only ever redirect back to our own site (no open-redirect via Referer)
+    $ref  = $_SERVER['HTTP_REFERER'] ?? '/';
+    $host = $_SERVER['HTTP_HOST'] ?? '';
+    if (!$host || parse_url($ref, PHP_URL_HOST) !== $host) { $ref = '/'; }
     $sep = (strpos($ref, '?') === false) ? '?' : '&';
     header('Location: ' . $ref . $sep . ($ok ? 'sent=1' : 'error=1') . '#main');
   }
