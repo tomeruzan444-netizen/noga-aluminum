@@ -11,6 +11,9 @@ export const site = {
   owner: 'דניאל',
   logo: '/images/נוגה-אלומיניום-2-1.png',
   teamPhoto: '/images/צוות-נוגה-אלומיניום.webp',
+  // responsive variants so mobile downloads ~32KB instead of ~89KB (hero is the LCP element)
+  teamPhotoSrcset: '/images/צוות-נוגה-אלומיניום-800.webp 800w, /images/צוות-נוגה-אלומיניום-1200.webp 1200w, /images/צוות-נוגה-אלומיניום.webp 1597w',
+  teamPhotoSizes: '100vw',
   ogImage: '/images/צוות-נוגה-אלומיניום.jpg',
   areas: ['שירות באזור המרכז', 'שירות באזור הצפון', 'שירות באזור הדרום'],
 };

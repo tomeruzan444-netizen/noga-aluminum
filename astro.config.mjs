@@ -7,7 +7,7 @@ export default defineConfig({
   trailingSlash: 'always',
   build: {
     format: 'directory', // /slug/index.html  -> served as /slug/
-    inlineStylesheets: 'auto',
+    inlineStylesheets: 'always', // fold the ~21KB stylesheet into the HTML so it isn't a render-blocking request (faster FCP/LCP on mobile)
   },
   compressHTML: true,
   prefetch: {

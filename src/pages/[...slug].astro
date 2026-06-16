@@ -28,7 +28,8 @@ const isHome = page.route === '/';
   robots={page.robots}
 >
   <section class="page-hero">
-    <img class="hero-bg" src={site.teamPhoto} alt={`הצוות המקצועי של ${site.name}`} width="1597" height="850"
+    <img class="hero-bg" src={site.teamPhoto} srcset={site.teamPhotoSrcset} sizes={site.teamPhotoSizes}
+         alt={`הצוות המקצועי של ${site.name}`} width="1597" height="850"
          fetchpriority="high" loading="eager" decoding="async" />
     <div class="hero-overlay" aria-hidden="true"></div>
     <div class="container">
