@@ -4,7 +4,9 @@ import Sidebar from '../components/Sidebar.astro';
 import Faq from '../components/Faq.astro';
 import ContactForm from '../components/ContactForm.astro';
 import ServicesGrid from '../components/ServicesGrid.astro';
+import Toc from '../components/Toc.astro';
 import { site, telLink, waLink } from '../data/site.js';
+import { buildToc } from '../lib/toc.js';
 import Icon from '../components/Icons.astro';
 
 export async function getStaticPaths() {
@@ -18,6 +20,7 @@ export async function getStaticPaths() {
 
 const { page } = Astro.props;
 const isHome = page.route === '/';
+const { html: contentHtml, toc } = buildToc(page.contentHtml);
 ---
 <BaseLayout
   title={page.metaTitle}
@@ -52,7 +55,8 @@ const isHome = page.route === '/';
     <div class="layout">
       <article class="content">
         {isHome && <ServicesGrid />}
-        <Fragment set:html={page.contentHtml} />
+        {!isHome && <Toc items={toc} />}
+        <Fragment set:html={contentHtml} />
         <Faq items={page.faq} />
         <div class="cta-band">
           <h2>צריכים הצעת מחיר?</h2>
