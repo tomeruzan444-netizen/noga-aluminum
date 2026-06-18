@@ -1,0 +1,27 @@
+---
+import { reviews } from '../data/reviews.js';
+// duplicate the list so the marquee loops seamlessly
+const loop = [...reviews, ...reviews];
+const stars = (n) => '★★★★★'.slice(0, n) + '☆☆☆☆☆'.slice(0, 5 - n);
+---
+{reviews.length > 0 && (
+  <section class="testimonials" aria-label="המלצות לקוחות">
+    <div class="container">
+      <h2 class="tm-title">מה הלקוחות שלנו אומרים</h2>
+      <div class="tm-viewport">
+        <ul class="tm-track" style={`--tm-count:${reviews.length}`}>
+          {loop.map((r, i) => (
+            <li class="tm-card" aria-hidden={i >= reviews.length ? 'true' : undefined}>
+              <div class="tm-stars" aria-label={`${r.rating} מתוך 5`}>{stars(r.rating)}</div>
+              <p class="tm-text">{r.text}</p>
+              <div class="tm-who">
+                <strong>{r.name}</strong>
+                <span>{r.city} · {r.service}</span>
+              </div>
+            </li>
+          ))}
+        </ul>
+      </div>
+    </div>
+  </section>
+)}

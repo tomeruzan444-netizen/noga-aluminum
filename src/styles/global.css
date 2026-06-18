@@ -260,6 +260,23 @@ strong, b { font-weight: 700; }
 .floating .fab-wa { background: var(--green); } .floating .fab-tel { background: var(--orange); }
 .floating svg { width: 28px; height: 28px; }
 
+/* ===== Testimonials marquee (footer) ===== */
+.testimonials { background: #1b1e23; padding: 42px 0 30px; }
+.tm-title { color: #fff; text-align: center; font-size: 1.35rem; margin: 0 0 24px; }
+.tm-viewport { overflow: hidden; -webkit-mask: linear-gradient(90deg, transparent, #000 5%, #000 95%, transparent); mask: linear-gradient(90deg, transparent, #000 5%, #000 95%, transparent); }
+.tm-track { display: flex; gap: 18px; list-style: none; margin: 0; padding: 6px 0; width: max-content; animation: tm-scroll calc(var(--tm-count, 6) * 7s) linear infinite; }
+.tm-viewport:hover .tm-track, .tm-track:focus-within { animation-play-state: paused; }
+.tm-card { flex: 0 0 320px; max-width: 320px; background: #2a2e35; border: 1px solid #353a41; border-radius: 14px; padding: 18px 20px; display: flex; flex-direction: column; }
+.tm-stars { color: #ffb400; letter-spacing: 2px; font-size: .95rem; margin-bottom: 9px; }
+.tm-text { color: #dde1e6; font-size: .94rem; line-height: 1.6; margin: 0 0 14px; flex: 1; }
+.tm-who strong { color: #fff; display: block; font-size: .96rem; }
+.tm-who span { color: #9aa1a9; font-size: .84rem; }
+@keyframes tm-scroll { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+@media (prefers-reduced-motion: reduce) {
+  .tm-track { animation: none; width: 100%; }
+  .tm-viewport { overflow-x: auto; -webkit-mask: none; mask: none; }
+}
+
 /* ===== In-page table of contents (minimal) ===== */
 html { scroll-behavior: smooth; }
 .toc { background: #fbfbfc; border: 1px solid var(--line); border-inline-start: 3px solid var(--orange); border-radius: 10px; padding: 14px 18px; margin: 0 0 28px; }
