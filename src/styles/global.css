@@ -118,9 +118,9 @@ strong, b { font-weight: 700; }
 .content { min-width: 0; overflow-wrap: break-word; word-break: break-word; }
 .sidebar { display: flex; flex-direction: column; gap: 20px; }
 
-/* "Updated <month year>" freshness line at the top of the article */
+/* "עודכן ב<חודש שנה>" freshness line at the top of the article */
 .updated { font-size: .82rem; color: var(--muted); margin: 0 0 16px; display: flex; align-items: center; gap: 6px; }
-.updated::before { content: ""; width: 7px; height: 7px; border-radius: 50%; background: var(--green, #2e9e54); flex: none; }
+.updated::before { content: ""; width: 7px; height: 7px; border-radius: 50%; background: var(--green); flex: none; }
 
 /* ===== Content typography ===== */
 .content h2 { font-size: 1.55rem; margin: 2em 0 .6em; padding-bottom: .35em; border-bottom: 3px solid var(--orange-light); }
