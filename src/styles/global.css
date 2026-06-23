@@ -286,9 +286,17 @@ strong, b { font-weight: 700; }
 /* ===== In-page table of contents (minimal) ===== */
 html { scroll-behavior: smooth; }
 .toc { background: #fbfbfc; border: 1px solid var(--line); border-inline-start: 3px solid var(--orange); border-radius: 10px; padding: 14px 18px; margin: 0 0 28px; }
-.toc-title { display: flex; align-items: center; gap: 8px; font-weight: 700; font-size: .9rem; color: var(--ink); margin: 0 0 10px; }
+.toc-title { display: flex; align-items: center; gap: 8px; font-weight: 700; font-size: .9rem; color: var(--ink); margin: 0; cursor: pointer; list-style: none; user-select: none; }
+.toc-title::-webkit-details-marker { display: none; }
 .toc-title svg { color: var(--orange); flex: none; }
-.toc ul { list-style: none; margin: 0; padding: 0; columns: 2; column-gap: 30px; }
+.toc-title:hover { color: var(--orange-dark); }
+/* "+" indicator that turns into "−" when the TOC is open */
+.toc-toggle { margin-inline-start: auto; position: relative; width: 20px; height: 20px; flex: none; border: 1px solid var(--line); border-radius: 6px; background: #fff; }
+.toc-toggle::before, .toc-toggle::after { content: ""; position: absolute; background: var(--orange); border-radius: 2px; transition: opacity .2s, transform .2s; }
+.toc-toggle::before { top: 50%; inset-inline: 4px; height: 2px; transform: translateY(-50%); }
+.toc-toggle::after { left: 50%; inset-block: 4px; width: 2px; transform: translateX(-50%); }
+.toc[open] .toc-toggle::after { opacity: 0; }
+.toc ul { list-style: none; margin: 12px 0 0; padding: 0; columns: 2; column-gap: 30px; }
 .toc li { margin: 0 0 7px; break-inside: avoid; }
 .toc a { color: var(--ink-soft); font-size: .92rem; text-decoration: none; line-height: 1.35; border-bottom: 1px solid transparent; transition: color .15s; }
 .toc a:hover { color: var(--orange); border-bottom-color: currentColor; }

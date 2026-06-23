@@ -1,16 +1,19 @@
 ---
-// Minimal "on this page" table of contents. Renders only when there are enough sections.
+// Minimal "on this page" table of contents. Collapsed by default — the user clicks
+// the "+" (or the title) to open it and navigate within the page. Renders only when
+// there are enough sections. Native <details>, no client JS.
 const { items = [], minItems = 3 } = Astro.props;
 const show = items.length >= minItems;
 ---
 {show && (
-  <nav class="toc" aria-label="ניווט בעמוד">
-    <p class="toc-title">
+  <details class="toc">
+    <summary class="toc-title">
       <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M8 6h12M8 12h12M8 18h12M3.5 6h.01M3.5 12h.01M3.5 18h.01"/></svg>
-      בעמוד זה
-    </p>
+      <span>תוכן העמוד</span>
+      <span class="toc-toggle" aria-hidden="true"></span>
+    </summary>
     <ul>
       {items.map((it) => <li><a href={`#${it.id}`}>{it.text}</a></li>)}
     </ul>
-  </nav>
+  </details>
 )}
