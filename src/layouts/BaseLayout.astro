@@ -7,7 +7,10 @@ import FloatingButtons from '../components/FloatingButtons.astro';
 import { site } from '../data/site.js';
 import { buildSchema } from '../lib/schema.js';
 
-const { title, description, route, h1, faq = [], ogImage, robots } = Astro.props;
+const { title, description, route, h1, faq = [], ogImage, robots, heroImage, heroSrcset } = Astro.props;
+// Preload the actual hero of this page (category image or team photo) so the LCP starts immediately.
+const preloadHero = heroImage || site.teamPhoto;
+const preloadHeroSrcset = heroImage ? heroSrcset : site.teamPhotoSrcset;
 const canonical = site.domain + route;
 const img = ogImage || (site.domain + (site.ogImage || site.teamPhoto));
 const schema = buildSchema({ route, title, description, h1, faq, image: img });
@@ -43,7 +46,7 @@ const schema = buildSchema({ route, title, description, h1, faq, image: img });
   <meta name="twitter:image:alt" content={`הצוות המקצועי של ${site.name}`} />
 
   <!-- Preload the hero image (the LCP element on every page) so it starts loading immediately -->
-  <link rel="preload" as="image" href={site.teamPhoto} imagesrcset={site.teamPhotoSrcset} imagesizes={site.teamPhotoSizes} fetchpriority="high" />
+  <link rel="preload" as="image" href={preloadHero} imagesrcset={preloadHeroSrcset} imagesizes={preloadHeroSrcset ? site.teamPhotoSizes : undefined} fetchpriority="high" />
 
   <!-- Self-hosted Assistant font: preload the Hebrew weights used above the fold -->
   <link rel="preload" as="font" type="font/woff2" href="/fonts/assistant-400-hebrew.woff2" crossorigin />

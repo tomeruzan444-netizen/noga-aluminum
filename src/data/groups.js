@@ -87,3 +87,22 @@ export function getSidebar(route) {
 export const groupsSummary = Object.fromEntries(
   Object.entries(byGroup).map(([k, v]) => [k, { title: META[k].title, count: v.length }])
 );
+
+// Per-category hero image so each service group shows a relevant photo (not the same
+// team photo everywhere). Groups without an entry (core/legal/works) fall back to the
+// team photo, which keeps its responsive srcset for a fast LCP.
+const HERO_BY_GROUP = {
+  railings:   { src: '/images/מעקה-למרפסת.webp', w: 1536, h: 1024 },
+  fences:     { src: '/images/גדר-אלומיניום.webp', w: 600, h: 400 },
+  pergolas:   { src: '/images/פרגולת-אלומיניום.webp', w: 700, h: 400 },
+  gates:      { src: '/images/שער-אלומיניום-לחניה.webp', w: 1006, h: 483 },
+  enclosures: { src: '/images/סגירת-מרפסת-שמש.webp', w: 1024, h: 1024 },
+  shutters:   { src: '/images/תיקון-תריסים.webp', w: 700, h: 400 },
+  windows:    { src: '/images/תיקון-חלונות-1.webp', w: 700, h: 400 },
+  metalwork:  { src: '/images/ריתוך-אלומיניום.webp', w: 1536, h: 1024 },
+};
+
+// Returns the category hero {src,w,h} for a route, or null to use the default team photo.
+export function getHero(route) {
+  return HERO_BY_GROUP[getGroupKey(route)] || null;
+}

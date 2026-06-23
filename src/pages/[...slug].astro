@@ -6,6 +6,8 @@ import ContactForm from '../components/ContactForm.astro';
 import ServicesGrid from '../components/ServicesGrid.astro';
 import Toc from '../components/Toc.astro';
 import { site, telLink, waLink } from '../data/site.js';
+import { getHero } from '../data/groups.js';
+import lastmod from '../data/lastmod.json';
 import { buildToc } from '../lib/toc.js';
 import Icon from '../components/Icons.astro';
 
@@ -21,6 +23,20 @@ export async function getStaticPaths() {
 const { page } = Astro.props;
 const isHome = page.route === '/';
 const { html: contentHtml, toc } = buildToc(page.contentHtml);
+
+// Per-category hero image (falls back to the team photo + its responsive srcset).
+const heroData = getHero(page.route);
+const heroSrc = heroData ? heroData.src : site.teamPhoto;
+const heroSrcset = heroData ? undefined : site.teamPhotoSrcset;
+const heroW = heroData ? heroData.w : 1597;
+const heroH = heroData ? heroData.h : 850;
+const heroAlt = heroData ? page.h1 : `הצוות המקצועי של ${site.name}`;
+
+// "Updated <month year>" freshness/trust line, from the captured lastmod data.
+const HEB_MONTHS = ['ינואר', 'פברואר', 'מרץ', 'אפריל', 'מאי', 'יוני', 'יולי', 'אוגוסט', 'ספטמבר', 'אוקטובר', 'נובמבר', 'דצמבר'];
+const lm = lastmod[page.route];
+let updated = null;
+if (lm) { const [y, m] = lm.slice(0, 7).split('-'); updated = `${HEB_MONTHS[+m - 1]} ${y}`; }
 ---
 <BaseLayout
   title={page.metaTitle}
@@ -29,10 +45,12 @@ const { html: contentHtml, toc } = buildToc(page.contentHtml);
   h1={page.h1}
   faq={page.faq}
   robots={page.robots}
+  heroImage={heroSrc}
+  heroSrcset={heroSrcset}
 >
   <section class="page-hero">
-    <img class="hero-bg" src={site.teamPhoto} srcset={site.teamPhotoSrcset} sizes={site.teamPhotoSizes}
-         alt={`הצוות המקצועי של ${site.name}`} width="1597" height="850"
+    <img class="hero-bg" src={heroSrc} srcset={heroSrcset} sizes={heroSrcset ? site.teamPhotoSizes : undefined}
+         alt={heroAlt} width={heroW} height={heroH}
          fetchpriority="high" loading="eager" decoding="async" />
     <div class="hero-overlay" aria-hidden="true"></div>
     <div class="container">
@@ -55,6 +73,7 @@ const { html: contentHtml, toc } = buildToc(page.contentHtml);
     <div class="layout">
       <article class="content">
         {isHome && <ServicesGrid />}
+        {!isHome && updated && <p class="updated">עודכן ב{updated}</p>}
         {!isHome && <Toc items={toc} />}
         <Fragment set:html={contentHtml} />
         <Faq items={page.faq} />
