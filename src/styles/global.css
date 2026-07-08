@@ -91,6 +91,12 @@ strong, b { font-weight: 700; }
 .nav-toggle { display: none; background: none; border: 1px solid var(--line); border-radius: 10px; width: 44px; height: 44px; cursor: pointer; align-items: center; justify-content: center; }
 .nav-toggle span, .nav-toggle span::before, .nav-toggle span::after { content: ''; display: block; width: 22px; height: 2px; background: var(--ink); position: relative; transition: .2s; }
 .nav-toggle span::before { position: absolute; top: -7px; } .nav-toggle span::after { position: absolute; top: 7px; }
+/* Desktop: center the nav menu with equal spacing between the logo (right) and the phone CTA (left).
+   display:contents lifts nav-list + header-cta to be siblings of .brand, then auto margins center the list. */
+@media (min-width: 981px) {
+  .main-nav { display: contents; }
+  .nav-list { margin-inline: auto; }
+}
 
 /* ===== Page hero / breadcrumb ===== */
 .page-hero { color: #fff; padding: 30px 0 48px; position: relative; overflow: hidden; isolation: isolate; }
