@@ -44,7 +44,7 @@ const allPages = pagesIndex.map((p) => ({ route: p.route, label: labelFromRoute(
 
 // ---- city detection (multi-word first) + token relevance ----
 const CITIES = ['ראשון לציון', 'הוד השרון', 'תל אביב', 'רמת גן', 'פתח תקווה', 'נתניה', 'חיפה',
-  'גבעתיים', 'רעננה', 'רחובות', 'ירושלים', 'חולון', 'אשדוד', 'קיסריה', 'טבריה', 'כרמיאל', 'נהריה', 'נשר', 'בנימינה', 'הרצליה'];
+  'גבעתיים', 'רעננה', 'רחובות', 'ירושלים', 'חולון', 'אשדוד', 'קיסריה', 'טבריה', 'כרמיאל', 'נהריה', 'נשר', 'בנימינה', 'הרצליה', 'חדרה'];
 const norm = (route) => decode(route).replace(/\//g, '').replace(/-/g, ' ').trim();
 
 export function extractCity(route) {
