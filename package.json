@@ -8,7 +8,9 @@
     "build": "astro build",
     "preview": "astro preview",
     "extract": "node scripts/extract.mjs",
-    "analyze": "node scripts/analyze.mjs"
+    "analyze": "node scripts/analyze.mjs",
+    "publish": "node scripts/publish.mjs",
+    "ship": "node scripts/ship.mjs"
   },
   "dependencies": {
     "@astrojs/sitemap": "^3.2.1",
