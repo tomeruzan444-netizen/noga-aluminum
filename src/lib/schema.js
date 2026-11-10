@@ -11,7 +11,7 @@ export function localBusiness() {
     url: site.domain + '/',
     image: site.domain + site.teamPhoto,
     logo: site.domain + site.logo,
-    telephone: '+972-52-4025710',
+    telephone: '+972-3-3829272',
     email: site.email,
     foundingDate: site.founded,
     priceRange: '₪₪',

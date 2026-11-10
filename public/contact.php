@@ -4,7 +4,7 @@
  * Emails leads to the business. Returns JSON for AJAX submits, redirects otherwise.
  */
 
-$TO   = 'tomeruzan444@gmail.com';
+$TO   = 'ben3n4456@gmail.com';
 $FROM = 'no-reply@noga-aluminum.co.il';
 
 $isAjax = (strtolower($_SERVER['HTTP_X_REQUESTED_WITH'] ?? '') === 'xmlhttprequest');
