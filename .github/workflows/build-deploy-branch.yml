@@ -1,0 +1,46 @@
+name: Build site to deploy branch
+
+# On every push to main: build the Astro site and publish dist/ to the `deploy`
+# branch. Hostinger's built-in Git auto-deploy pulls the `deploy` branch into
+# public_html, so no FTP from the cloud is needed (Hostinger blocks that).
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: build-deploy-branch
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+      - run: npm ci
+      - run: npm run build
+      - name: Sanity check the build
+        run: |
+          test -f dist/index.html
+          test -f dist/.htaccess
+          test -f dist/contact.php
+          test -f dist/sitemap.xml
+          n=$(find dist -name index.html | wc -l)
+          echo "pages: $n"
+          test "$n" -ge 100
+      - name: Publish dist/ to the deploy branch
+        run: |
+          cd dist
+          git init -q -b deploy
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -A
+          git commit -q -m "Build of ${GITHUB_SHA::7}: $(git -C .. log -1 --format=%s)"
+          git push -f "https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${GITHUB_REPOSITORY}.git" deploy
