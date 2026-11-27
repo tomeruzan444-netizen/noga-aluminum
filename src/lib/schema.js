@@ -26,7 +26,7 @@ export function localBusiness() {
       dayOfWeek: ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday'],
       opens: '09:00', closes: '18:30',
     }],
-    sameAs: [],
+    sameAs: [site.facebook],
   };
 }
 

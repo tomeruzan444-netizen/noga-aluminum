@@ -6,6 +6,7 @@ export const site = {
   phone: '03-3829272',
   phoneIntl: '972524025710',
   email: 'support@noga-aluminum.co.il',
+  facebook: 'https://www.facebook.com/nogaaluminum',
   hours: 'פתוחים מראשון ועד חמישי 09:00 - 18:30',
   founded: '2005',
   owner: 'דניאל',
